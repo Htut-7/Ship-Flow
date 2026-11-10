@@ -1,6 +1,7 @@
-const ROUTES={
+const ROUTES = {
     REGISTER: "/register",
     LOGIN: "/login",
-};
-
-export default ROUTES;
+  };
+  
+  export default ROUTES;
+  
