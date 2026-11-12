@@ -1,16 +1,47 @@
-
 "use client";
 
 import ROUTES from "@/ROUTES";
 import React, { useState } from "react";
 import Link from "next/link";
+import { register } from "@/lib/action/register.action";
+import { useRouter } from "next/navigation";
 
 function page() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  const regHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const result = await register({
+        name: username,
+        email,
+        password,
+      });
+      console.log(result);
+
+      if (result.success) {
+        router.push(ROUTES.HOME);
+      } else {
+        setError(result.message);
+      }
+    } catch {
+      setError("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+    
+  };
+
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4 md:p-8">
@@ -35,9 +66,9 @@ function page() {
             </h2>
 
             <p className="mb-10 max-w-md leading-7 text-slate-300">
-              Your next delivery starts here. Create your account and
-              experience a simpler way to manage shipments. Send parcels, track
-              their journey, and stay informed every step of the way.
+              Your next delivery starts here. Create your account and experience
+              a simpler way to manage shipments. Send parcels, track their
+              journey, and stay informed every step of the way.
             </p>
 
             <div className="space-y-6">
@@ -78,7 +109,7 @@ function page() {
         </div>
 
         <div className="flex items-center justify-center p-8 sm:p-12 lg:p-14">
-          <form className="w-full max-w-md">
+          <form className="w-full max-w-md" onSubmit={regHandler}>
             <div className="mb-8">
               <span className="mb-3 block text-sm font-semibold tracking-wider text-blue-600 uppercase">
                 Get Started
