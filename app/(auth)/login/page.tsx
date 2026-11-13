@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import ROUTES from "@/ROUTES";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 function page() {
   const [email, setEmail] = useState("");
@@ -11,8 +12,24 @@ function page() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const loginHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setLoading(true);
+    setError(null);
+
+    try{
+      await signIn("credentials",{
+        email,
+        password,
+        redirectTo: "/",
+      })
+    }catch(error){
+      console.log(error);  
+    }finally{
+      setLoading(false);
+    }
+
   };
 
   return (
