@@ -5,8 +5,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { register } from "@/lib/action/register.action";
 import { useRouter } from "next/navigation";
+import OAuthForm from "../components/OAuthForm";
 
-function page() {
+function Page() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,14 +39,11 @@ function page() {
     } finally {
       setLoading(false);
     }
-    
   };
-
-
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4 md:p-8">
-      <div className="grid w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-2xl lg:min-h-[700px] lg:grid-cols-2">
+      <div className="grid w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-2xl lg:min-h-175 lg:grid-cols-2">
         <div className="relative flex flex-col justify-between overflow-hidden bg-slate-900 p-8 text-white sm:p-12 lg:p-14">
           <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl" />
           <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl" />
@@ -180,6 +178,8 @@ function page() {
               </div>
             </div>
 
+            {error && <p className="text-sm text-red-500">{error}</p>}
+
             <div className="mt-8">
               <button
                 type="submit"
@@ -188,6 +188,16 @@ function page() {
               >
                 {loading ? "Loading..." : "Create Account"}
               </button>
+
+              <p className="my-5 flex items-center text-sm text-gray-500 gap-4">
+                <span className="h-px flex-1 bg-gray-200" />
+                or Continue with
+                <span className="h-px flex-1 bg-gray-200" />
+              </p>
+
+              <div className="mt-5">
+                <OAuthForm />
+              </div>
             </div>
 
             <p className="mt-8 text-center text-sm text-slate-500">
@@ -206,4 +216,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
