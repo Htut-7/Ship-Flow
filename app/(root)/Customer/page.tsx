@@ -6,6 +6,7 @@ import { LiaShippingFastSolid } from "react-icons/lia";
 import { PiPackage } from "react-icons/pi";
 import { LuNavigation } from "react-icons/lu";
 import ServiceCard from "@/components/ServiceCard";
+import Sidebar from "./component/Sidebar";
 
 const services = [
   {
@@ -58,39 +59,42 @@ async function Page() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-6 py-10">
-        <div className="mb-10">
-          <span className="text-sm font-semibold text-blue-600">
-            Welcome back!
-          </span>
+      <div className="flex">
+        <Sidebar />
+        <main className="mx-auto max-w-7xl px-6 py-10">
+          <div className="mb-10">
+            <span className="text-sm font-semibold text-blue-600">
+              Welcome back!
+            </span>
 
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
-            Track and manage your shipments.
-          </h1>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
+              Track and manage your shipments.
+            </h1>
 
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500">
-            Create a shipment, check its delivery status, and view your shipment
-            history all in one place.
-          </p>
-        </div>
-
-        <section>
-          <h2 className="mb-5 text-lg font-semibold text-gray-900">
-            Shipment Overview
-          </h2>
-
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, i) => (
-              <ServiceCard
-                key={i}
-                title={service.title}
-                icon={service.icon}
-                count={service.count}
-              />
-            ))}
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500">
+              Create a shipment, check its delivery status, and view your
+              shipment history all in one place.
+            </p>
           </div>
-        </section>
-      </main>
+
+          <section>
+            <h2 className="mb-5 text-lg font-semibold text-gray-900">
+              Shipment Overview
+            </h2>
+
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {services.map((service, i) => (
+                <ServiceCard
+                  key={i}
+                  title={service.title}
+                  icon={service.icon}
+                  count={service.count}
+                />
+              ))}
+            </div>
+          </section>
+        </main>
+      </div>
     </div>
   );
 }
