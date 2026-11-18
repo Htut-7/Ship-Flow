@@ -1,9 +1,8 @@
 import { auth } from '@/auth'
 import ROUTES from '@/ROUTES';
 import { redirect } from 'next/navigation';
-import React from 'react'
 
-async function page() {
+async function Page() {
   const session=await auth();
 
 
@@ -31,4 +30,4 @@ console.log("Session user:", session?.user);
   }
 }
 
-export default page
+export default Page;
