@@ -15,8 +15,13 @@ export async function register(params: {
     password: string
 }){
     await dbConnect();
+    await dbConnect();
+
     console.log("Connected database:", mongoose.connection.name);
-    const session= await mongoose.startSession();
+    console.log("Connected host:", mongoose.connection.host);
+    
+    const session = await mongoose.startSession();
+
     session.startTransaction();
     
     try{
@@ -51,6 +56,8 @@ console.log("Accounts:", accounts.length);
         ],{session});
         console.log("User created:", newUser._id);
 
+        console.log("Registration password length:", password.length);
+
         await Account.create([
             {
                 userId: newUser._id,
@@ -62,6 +69,8 @@ console.log("Accounts:", accounts.length);
             }
         ],{session});
         console.log("Account created successfully");
+        console.log("Users:", await User.countDocuments());
+console.log("Accounts:", await Account.countDocuments());
 
         await session.commitTransaction();
         console.log("Transaction committed successfully");

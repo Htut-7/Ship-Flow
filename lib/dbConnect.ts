@@ -8,7 +8,10 @@ let cached = global.mongoose;
 
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
+  
 }
+
+
 
 async function dbConnect() {
   const MONGODB_URI = process.env.MONGODB_URI!;
@@ -27,8 +30,11 @@ async function dbConnect() {
       bufferCommands: false,
     };
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log("Connected database:", mongoose.connection.name);
+      console.log("Connected host:", mongoose.connection.host);
+    
       return mongoose;
-    });
+    }); 
   }
   try {
     cached.conn = await cached.promise;
@@ -39,5 +45,7 @@ async function dbConnect() {
 
   return cached.conn;
 }
+
+
 
 export default dbConnect;

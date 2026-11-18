@@ -14,7 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Credentials({
       async authorize(credential) {
         const validateField = validateBody(credential, signInSchema);
-
+        console.log("Validation successful:", Boolean(validateField));
         if (validateField) {
           const { email, password } = validateField;
 
@@ -25,11 +25,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             providerAccountId: email,
           });
 
+          console.log("Account found:", Boolean(existingAccount));
+
           if (!existingAccount) {
-            throw new Error("Account not found");
+            return null;
           }
 
           const existingUser = await User.findById(existingAccount.userId);
+
+          console.log("User found:", Boolean(existingUser));
 
           if (!existingUser || existingUser.isActive !== true) {
             throw new Error("User not found");
@@ -39,14 +43,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             throw new Error("Invalid password");
           }
 
+          console.log("Login password length:", password.length);
+
           const isValidPassword = await bcrypt.compare(
             password,
             existingAccount.password,
           );
 
+          console.log("Password valid:", isValidPassword);
+
           if (isValidPassword) {
             return {
-              id: existingUser._id,
+              id: existingUser._id.toString(),
               name: existingUser.name,
               email: existingUser.email,
               image: existingUser.image,
@@ -90,6 +98,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           providerAccountId: account.providerAccountId,
         })
 
+        
+
         if(!existingAccount){
           existingAccount=await Account.create({
             userId: existingUser._id,
@@ -124,8 +134,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      (session.user as typeof session.user & { id: string }).id =
+      (session.user as typeof session.user & { id: string; role: string; }).id =
         token.sub as string;
+
+        (session.user as typeof session.user & {id: string; role: string}).role=token.role as string;
       return session;
     },
   },

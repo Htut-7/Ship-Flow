@@ -23,7 +23,7 @@ function Page() {
       await signIn("credentials",{
         email,
         password,
-        redirectTo: "/",
+        redirectTo: ROUTES.HOME,
       })
     }catch(error){
       console.log(error);  

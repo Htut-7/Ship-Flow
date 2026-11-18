@@ -6,6 +6,7 @@ import Link from "next/link";
 import { register } from "@/lib/action/register.action";
 import { useRouter } from "next/navigation";
 import OAuthForm from "../components/OAuthForm";
+import { signIn } from "next-auth/react";
 
 function Page() {
   const [username, setUsername] = useState("");
@@ -30,7 +31,11 @@ function Page() {
       console.log(result);
 
       if (result.success) {
-        router.push(ROUTES.HOME);
+        await signIn("credentials",{
+          email,
+          password,
+          redirectTo: ROUTES.HOME,
+        })
       } else {
         setError(result.message);
       }
