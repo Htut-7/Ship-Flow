@@ -4,7 +4,6 @@ import ROUTES from "@/ROUTES";
 import React, { useState } from "react";
 import Link from "next/link";
 import { register } from "@/lib/action/register.action";
-import { useRouter } from "next/navigation";
 import OAuthForm from "../components/OAuthForm";
 import { signIn } from "next-auth/react";
 
@@ -14,7 +13,6 @@ function Page() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
   const regHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,11 +29,11 @@ function Page() {
       console.log(result);
 
       if (result.success) {
-        await signIn("credentials",{
+        await signIn("credentials", {
           email,
           password,
           redirectTo: ROUTES.HOME,
-        })
+        });
       } else {
         setError(result.message);
       }
