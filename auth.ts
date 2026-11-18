@@ -14,7 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Credentials({
       async authorize(credential) {
         const validateField = validateBody(credential, signInSchema);
-        console.log("Validation successful:", Boolean(validateField));
+
         if (validateField) {
           const { email, password } = validateField;
 
@@ -25,15 +25,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             providerAccountId: email,
           });
 
-          console.log("Account found:", Boolean(existingAccount));
-
           if (!existingAccount) {
             return null;
           }
 
           const existingUser = await User.findById(existingAccount.userId);
-
-          console.log("User found:", Boolean(existingUser));
 
           if (!existingUser || existingUser.isActive !== true) {
             throw new Error("User not found");
@@ -43,14 +39,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             throw new Error("Invalid password");
           }
 
-          console.log("Login password length:", password.length);
-
           const isValidPassword = await bcrypt.compare(
             password,
             existingAccount.password,
           );
-
-          console.log("Password valid:", isValidPassword);
 
           if (isValidPassword) {
             return {
@@ -71,37 +63,35 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account?.type === "credentials") {
         return true;
       }
-      if(account?.provider==="google"){
-        if(!user.email || profile?.email_verified !== true){
+      if (account?.provider === "google") {
+        if (!user.email || profile?.email_verified !== true) {
           return false;
         }
 
         await dbConnect();
 
-        const email=user.email.toLowerCase();
+        const email = user.email.toLowerCase();
 
-        let existingUser=await User.findOne({email});
+        let existingUser = await User.findOne({ email });
 
-        if(!existingUser){
-          existingUser= await User.create({
+        if (!existingUser) {
+          existingUser = await User.create({
             name: user.name || email.split("@")[0],
             email,
             image: user.image || "",
             role: "Customer",
             isActive: true,
             emailVerified: new Date(),
-          })
+          });
         }
 
-        let existingAccount=await Account.findOne({
+        let existingAccount = await Account.findOne({
           provider: "google",
           providerAccountId: account.providerAccountId,
-        })
+        });
 
-        
-
-        if(!existingAccount){
-          existingAccount=await Account.create({
+        if (!existingAccount) {
+          existingAccount = await Account.create({
             userId: existingUser._id,
             name: user.name || "",
             image: user.image || "",
@@ -110,15 +100,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
         }
 
-        if(existingAccount.userId.toString() !== existingUser._id.toString()){
+        if (existingAccount.userId.toString() !== existingUser._id.toString()) {
           return false;
         }
 
-        user.id=existingUser._id.toString();
-        (user as typeof user & {role: string}).role=existingUser.role;
+        user.id = existingUser._id.toString();
+        (user as typeof user & { role: string }).role = existingUser.role;
 
         return true;
-
       }
       return false;
     },
@@ -134,10 +123,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      (session.user as typeof session.user & { id: string; role: string; }).id =
+      (session.user as typeof session.user & { id: string; role: string }).id =
         token.sub as string;
 
-        (session.user as typeof session.user & {id: string; role: string}).role=token.role as string;
+      (
+        session.user as typeof session.user & { id: string; role: string }
+      ).role = token.role as string;
       return session;
     },
   },
