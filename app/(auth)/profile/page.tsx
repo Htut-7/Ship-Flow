@@ -5,6 +5,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import ROUTES from "@/ROUTES";
 import { FaUserEdit } from "react-icons/fa";
+import Link from "next/link";
 
 async function page() {
   const session = await auth();
@@ -97,13 +98,13 @@ async function page() {
           </div>
 
           <div className="flex justify-end border-t border-gray-100 bg-gray-50 px-6 py-5 sm:px-8">
-            <button
-              type="button"
+            <Link
+              href={ROUTES.EDIT}
               className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <FaUserEdit className="h-4 w-4" />
               Edit Profile
-            </button>
+            </Link>
           </div>
         </div>
       </div>

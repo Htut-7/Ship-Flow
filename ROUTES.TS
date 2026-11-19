@@ -17,6 +17,7 @@ const ROUTES = {
     CHECKRIDERS: "/admin/checkRiders",
     RIDERAPP: "/admin/riderApp",
     PROFILE: "/profile",
+    EDIT: "/profile/edit"
   };
   
   export default ROUTES;
