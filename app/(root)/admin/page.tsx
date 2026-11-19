@@ -13,6 +13,12 @@ async function page() {
     redirect(ROUTES.LOGIN);
   }
 
+  const role=(session.user as typeof session.user & {role: string}).role;
+
+  if(role !== "Admin"){
+    redirect(ROUTES.LOGIN);
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">

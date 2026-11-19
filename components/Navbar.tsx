@@ -28,7 +28,7 @@ async function Navbar() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href={ROUTES.CUSTOMERPROFILE}>
+            <Link href={ROUTES.PROFILE}>
             {session.user.image ? (
                 <Image src={session.user.image} alt="profile" height={30} width={30} className='rounded-full object-cover'/> 
             ): (

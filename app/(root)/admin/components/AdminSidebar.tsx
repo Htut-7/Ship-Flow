@@ -1,4 +1,3 @@
-
 import React from "react";
 import Link from "next/link";
 import Logout from "@/components/Logout";
@@ -9,7 +8,6 @@ import { FaTruckFast, FaUser } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoMdBicycle } from "react-icons/io";
 import { GoChecklist } from "react-icons/go";
-import { CgProfile } from "react-icons/cg";
 
 function AdminSidebar() {
   return (
@@ -108,23 +106,7 @@ function AdminSidebar() {
         </div>
 
         <div>
-          <div className="mb-3 px-3">
-            <span className="text-xs font-semibold tracking-wider text-gray-400">
-              ACCOUNT
-            </span>
-          </div>
-
           <div className="flex flex-col gap-1">
-            <div>
-              <Link
-                href={"/"}
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
-              >
-                <CgProfile className="h-5 w-5 shrink-0" />
-                Profile
-              </Link>
-            </div>
-
             <div className="mt-3 border-t border-gray-100 pt-3">
               <Logout />
             </div>
