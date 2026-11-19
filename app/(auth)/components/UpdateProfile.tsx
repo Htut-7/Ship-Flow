@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 
-
 function UpdateProfile() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
