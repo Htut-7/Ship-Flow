@@ -7,8 +7,7 @@ import { PiPackage } from "react-icons/pi";
 import { LuNavigation } from "react-icons/lu";
 import ServiceCard from "@/components/ServiceCard";
 import Sidebar from "./component/Sidebar";
-import Image from "next/image";
-import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 const services = [
   {
@@ -44,25 +43,7 @@ async function Page() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
-          <h2 className="text-2xl font-bold tracking-tight text-blue-700">
-            Ship-Flow
-          </h2>
-
-          <div className="hidden max-w-md flex-1 md:block">
-            <input
-              type="text"
-              placeholder="Search for anything..."
-              className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link href={ROUTES.CUSTOMERPROFILE}>
-            <Image src={session.user.image || "/default-avatar.png"} width={30} height={30} alt="profile" className="rounded-full"/>
-            </Link>
-          </div>
-        </div>
+        <Navbar/>
       </header>
 
       <div className="flex">
