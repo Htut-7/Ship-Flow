@@ -7,6 +7,8 @@ import { PiPackage } from "react-icons/pi";
 import { LuNavigation } from "react-icons/lu";
 import ServiceCard from "@/components/ServiceCard";
 import Sidebar from "./component/Sidebar";
+import Image from "next/image";
+import Link from "next/link";
 
 const services = [
   {
@@ -55,7 +57,11 @@ async function Page() {
             />
           </div>
 
-          <div className="flex items-center gap-3">{/* <Profile /> */}</div>
+          <div className="flex items-center gap-3">
+            <Link href={ROUTES.CUSTOMERPROFILE}>
+            <Image src={session.user.image || "/default-avatar.png"} width={30} height={30} alt="profile" className="rounded-full"/>
+            </Link>
+          </div>
         </div>
       </header>
 

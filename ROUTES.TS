@@ -16,6 +16,7 @@ const ROUTES = {
     CUSTOMERS: "/admin/customers",
     CHECKRIDERS: "/admin/checkRiders",
     RIDERAPP: "/admin/riderApp",
+    CUSTOMERPROFILE: "/Customer/profile",
   };
   
   export default ROUTES;
