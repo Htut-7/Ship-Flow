@@ -20,6 +20,8 @@ export async function updateProfile(params: {
   details?: object | null;
 }> {
   await dbConnect();
+  console.log("UPDATE PROFILE ACTION STARTED");
+    console.log("Received image:", params.image);
 
   const session = await auth();
 
@@ -61,9 +63,12 @@ export async function updateProfile(params: {
     }
 
     if (image && image.size > 0) {
-      if (!image.type.startsWith("/image")) {
+      console.log("3. Image validation started");
+      if (!image.type.startsWith("image/")) {
         throw new Error("Please upload valid image");
       }
+      
+      console.log("4. Image validation passed");
 
       const cloudinaryData = new FormData();
 
@@ -74,7 +79,7 @@ export async function updateProfile(params: {
       );
 
       const response = await fetch(
-        `POST https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+        `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
         {
           method: "POST",
           body: cloudinaryData,

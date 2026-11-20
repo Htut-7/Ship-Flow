@@ -27,17 +27,20 @@ async function Navbar() {
       </div>
 
       <div className="flex items-center gap-3">
-        <Link href={ROUTES.PROFILE}>
+        <Link
+          href={ROUTES.PROFILE}
+          className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-gray-200 bg-gray-100 transition hover:border-blue-500 dark:border-gray-700 dark:bg-gray-800"
+        >
           {session.user.image ? (
             <Image
               src={session.user.image}
-              alt="profile"
-              height={30}
-              width={30}
-              className="rounded-full object-cover"
+              alt="Profile"
+              width={40}
+              height={40}
+              className="h-full w-full rounded-full object-cover"
             />
           ) : (
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold uppercase text-white">
+            <div className="flex h-full w-full items-center justify-center rounded-full bg-blue-600 text-sm font-semibold uppercase text-white">
               {session.user.name?.charAt(0) || "U"}
             </div>
           )}

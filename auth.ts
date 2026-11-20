@@ -105,6 +105,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         user.id = existingUser._id.toString();
+        user.name = existingUser.name;
+        user.image = existingUser.image || user.image;
         (user as typeof user & { role: string }).role = existingUser.role;
 
         return true;
@@ -115,6 +117,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ user, token }) {
       if (user) {
         token.sub = user.id;
+        token.name = user.name;
+        token.picture = user.image;
         (token as typeof token & { role: string }).role = (
           user as typeof user & { role: string }
         ).role;
@@ -123,12 +127,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      (session.user as typeof session.user & { id: string; role: string }).id =
-        token.sub as string;
+      if (session.user) {
+        const sessionUser = session.user as typeof session.user & {
+          role: string;
+          id: string;
+        };
 
-      (
-        session.user as typeof session.user & { id: string; role: string }
-      ).role = token.role as string;
+        sessionUser.id=token.sub as string;
+        sessionUser.role=token.role  as string;
+        sessionUser.name=token.name;
+        sessionUser.image=token.picture;
+      }
       return session;
     },
   },
