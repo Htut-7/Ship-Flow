@@ -17,12 +17,24 @@ export interface IShipement {
   sender:{
     name: string;
     phone: string;
-    address: string;
+    address: {
+      addressLine1: string;
+      addressLine2?: string;
+      township: string;
+      district: string;
+      region: string;
+    };
   };
   receiver:{
     name: string;
     phone: string;
-    address: string;
+    address: {
+      addressLine1: string;
+      addressLine2?: string;
+      township: string;
+      district: string;
+      region: string;
+    };
   };
   vehicleType?: string | null;
   vehicleNumber?: string | null;
@@ -62,9 +74,27 @@ const shipmentSchema = new Schema(
         required: true,
       },
       address:{
-        type: String,
-        required: true,
-      }
+        addressLine1:{
+          type: String,
+          required: true,
+        },
+        addressLine2: {
+          type: String,
+          required: false,
+        },
+        township: {
+          type: String,
+          required: true,
+        },
+        district: {
+          type: String,
+          required: true,
+        },
+        region: {
+          type: String,
+          required: true,
+        }
+      },
     },
     receiver:{
       name:{
@@ -75,9 +105,27 @@ const shipmentSchema = new Schema(
         type: String,
         required: true,
       },
-      address: {
-        type: String,
-        required: true,
+      address:{
+        addressLine1:{
+          type: String,
+          required: true,
+        },
+        addressLine2: {
+          type: String,
+          required: false,
+        },
+        township: {
+          type: String,
+          required: true,
+        },
+        district: {
+          type: String,
+          required: true,
+        },
+        region: {
+          type: String,
+          required: true,
+        }
       },
     },
     vehicleType: {
