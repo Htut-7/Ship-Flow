@@ -14,8 +14,16 @@ export interface IShipement {
   trackingNumber: string;
   customerId: Types.ObjectId;
   riderId?: Types.ObjectId | null;
-  startDestination: string;
-  endDestination: string;
+  sender:{
+    name: string;
+    phone: string;
+    address: string;
+  };
+  receiver:{
+    name: string;
+    phone: string;
+    address: string;
+  };
   vehicleType?: string | null;
   vehicleNumber?: string | null;
   parcelDescription?: string;
@@ -42,14 +50,35 @@ const shipmentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Rider",
       required: false,
+      default: null,
     },
-    startDestination: {
-      type: String,
-      required: true,
+    sender:{
+      name:{
+        type: String,
+        required: true,
+      },
+      phone:{
+        type: String,
+        required: true,
+      },
+      address:{
+        type: String,
+        required: true,
+      }
     },
-    endDestination: {
-      type: String,
-      required: true,
+    receiver:{
+      name:{
+        type: String,
+        required: true,
+      },
+      phone: {
+        type: String,
+        required: true,
+      },
+      address: {
+        type: String,
+        required: true,
+      },
     },
     vehicleType: {
       type: String,

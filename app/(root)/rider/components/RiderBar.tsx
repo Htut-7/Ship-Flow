@@ -7,6 +7,7 @@ import { FaTruckFast } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { LuPackageSearch } from "react-icons/lu";
+import ROUTES from "@/ROUTES";
 
 function RiderBar() {
   return (
@@ -23,7 +24,7 @@ function RiderBar() {
             <div className="flex flex-col gap-2">
               <div>
                 <Link
-                  href={"/"}
+                  href={ROUTES.RIDER}
                   className="flex items-center gap-3 rounded-lg bg-blue-50 px-3 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-100"
                 >
                   <MdOutlineSpaceDashboard className="h-5 w-5 shrink-0" />
@@ -33,7 +34,7 @@ function RiderBar() {
 
               <div>
                 <Link
-                  href={"/"}
+                  href={ROUTES.RIDERDELI}
                   className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
                 >
                   <LuPackageSearch className="h-5 w-5 shrink-0" />
@@ -43,7 +44,7 @@ function RiderBar() {
 
               <div>
                 <Link
-                  href={"/"}
+                  href={ROUTES.RIDERPENDING}
                   className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
                 >
                   <CiClock2 className="h-5 w-5 shrink-0" />
@@ -53,7 +54,7 @@ function RiderBar() {
 
               <div>
                 <Link
-                  href={"/"}
+                  href={ROUTES.RIDERTRANSIT}
                   className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
                 >
                   <FaTruckFast className="h-5 w-5 shrink-0" />
@@ -63,7 +64,7 @@ function RiderBar() {
 
               <div>
                 <Link
-                  href={"/"}
+                  href={ROUTES.RIDERCOMPLETE}
                   className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
                 >
                   <FaCheckCircle className="h-5 w-5 shrink-0" />
