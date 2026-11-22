@@ -1,7 +1,8 @@
-
 "use client";
 
+import { CreateShipment } from "@/lib/action/CreateShipment.action";
 import React, { useState } from "react";
+import { toast } from "react-toastify"; 
 
 function CreateForm() {
   const [sender, setSender] = useState({
@@ -30,6 +31,69 @@ function CreateForm() {
 
   const [description, setDescription] = useState("");
   const [weight, setWeight] = useState("");
+  const [loading,setLoading]=useState(false);
+
+  const createHandler=async(e:React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+
+    if(loading) return;
+
+    setLoading(true);
+
+    try{
+      const result=await CreateShipment({
+        sender,
+        receiver,
+        weight: Number(weight),
+        description,
+      });
+
+      if(!result.success){
+        toast.error(result.message || "Failed to create shipment");
+      }
+
+      const trackingNumber=(result.details as {trackingNumber?: string}).trackingNumber;
+
+      toast.success(
+        `Shipment created successfully! Tracking Number: ${trackingNumber}`
+      );
+
+      setSender({
+        name: "",
+        phone: "",
+        address:{
+          addressLine1: "",
+          addressLine2: "",
+          township: "",
+          district: "",
+          region: "",
+        },
+      });
+
+      setReceiver({
+        name: "",
+        phone: "",
+        address:{
+          addressLine1: "",
+          addressLine2: "",
+          township: "",
+          district: "",
+          region: "",
+        },
+      });
+      setDescription("");
+      setWeight("");
+
+    }catch(e){
+      toast.error(
+        e instanceof Error ? e.message : "Something went wrong while creating your shipment"
+      )
+    }finally{
+      setLoading(false);
+    }
+  }
+
+ 
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-4 pb-6">
@@ -43,8 +107,7 @@ function CreateForm() {
         </p>
       </div>
 
-      <form className="space-y-4">
-        {/* Sender Information */}
+      <form className="space-y-4" onSubmit={createHandler}>
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center gap-3 border-b border-gray-100 pb-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
@@ -83,9 +146,7 @@ function CreateForm() {
                 type="text"
                 placeholder="Enter sender name..."
                 required
-                onChange={(e) =>
-                  setSender({ ...sender, name: e.target.value })
-                }
+                onChange={(e) => setSender({ ...sender, name: e.target.value })}
                 value={sender.name}
                 className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
@@ -231,7 +292,6 @@ function CreateForm() {
           </div>
         </div>
 
-        {/* Receiver Information */}
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center gap-3 border-b border-gray-100 pb-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
@@ -418,7 +478,6 @@ function CreateForm() {
           </div>
         </div>
 
-        {/* Package Details */}
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center gap-3 border-b border-gray-100 pb-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
@@ -439,9 +498,7 @@ function CreateForm() {
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900">
-                Package Details
-              </h3>
+              <h3 className="font-semibold text-gray-900">Package Details</h3>
               <p className="text-xs text-gray-500">
                 Provide information about the shipment
               </p>
@@ -485,7 +542,7 @@ function CreateForm() {
             type="submit"
             className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            Create Shipment
+            {loading ? "Creating Shipment..." : "Create Shipment"}
           </button>
         </div>
       </form>
