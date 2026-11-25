@@ -13,7 +13,6 @@ const ROUTES = {
 
   // ADMIN ROUTES
   ADMIN: "/admin",
-  ALLSHIPMENTS: "/admin/allshipments",
   PENDING: "/admin/pending",
   INTRANSIT: "/admin/intransit",
   Delivered: "/admin/delivered",
