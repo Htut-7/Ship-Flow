@@ -11,6 +11,7 @@ export type shipmentStatus =
   | "failed";
 
 export interface IShipement {
+  _id: Types.ObjectId;
   trackingNumber: string;
   customerId: Types.ObjectId;
   riderId?: Types.ObjectId | null;
