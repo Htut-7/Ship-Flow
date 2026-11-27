@@ -74,6 +74,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         let existingUser = await User.findOne({ email });
 
+        if(!existingUser.isActive){
+          return false;
+        }
+
         if (!existingUser) {
           existingUser = await User.create({
             name: user.name || email.split("@")[0],

@@ -6,7 +6,7 @@ import validateBody from "../validateBody";
 import updateCustomerStatusSchema from "../schema/updateCustomerStatusSchema";
 import User from "@/database/user.model";
 
-export async function updateCustomerStatus(params:{
+export async function updateCustomerStatus(params: {
     customerId: string;
     isActive: boolean;
 }) : Promise<{
@@ -18,23 +18,19 @@ export async function updateCustomerStatus(params:{
 
     const session=await auth();
 
-    if(!session?.user?.email){
-        throw new Error("Unauthorized");
-    }
+    const role=(session?.user as & {role: string}).role;
 
-    const role=(session.user as & {role: string}).role;
-
-    if(role !== "Admin"){
+    if(!session?.user?.email && role !== "Admin"){
         throw new Error("Unauthorized");
     }
 
     try{
         const validatedData=validateBody(params,updateCustomerStatusSchema);
-        const {customerId, isActive}=validatedData;
+        const {customerId,isActive}=validatedData;
 
         const customer=await User.findOne({
             _id: customerId,
-            role: "Customer",
+            role: "Customer"
         });
 
         if(!customer){
@@ -46,13 +42,13 @@ export async function updateCustomerStatus(params:{
 
         return{
             success: true,
-            message: "Customer status update successfully",
+            message: "Status updated successfully",
         }
 
     }catch(e){
-        return {
+        return{
             success: false,
-            message: e instanceof Error ? e.message : "Something went wrong while updating status",
+            message: e instanceof Error ? e.message : "Something went wrong while updating the status",
         }
     }
 }
