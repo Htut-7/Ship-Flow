@@ -20,8 +20,6 @@ export async function updateProfile(params: {
   details?: object | null;
 }> {
   await dbConnect();
-  console.log("UPDATE PROFILE ACTION STARTED");
-    console.log("Received image:", params.image);
 
   const session = await auth();
 

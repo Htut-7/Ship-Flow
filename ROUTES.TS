@@ -19,6 +19,7 @@ const ROUTES = {
   CUSTOMERS: "/admin/customers",
   CHECKRIDERS: "/admin/checkRiders",
   RIDERAPP: "/admin/riderApp",
+  CUSTOMERACC: "/admin/customers/customerAccounts",
 
   // PROFILE ROUTES
   PROFILE: "/profile",
